@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Aurum AI – Chennai gold rate & buy-or-wait advisor</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600&family=Fraunces:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06080b;--card:#0d1116;--line:#1c242c;--tx:#e9edf1;--mu:#8a96a3;--teal:#2ee6c8;--gold:#e9b949;--red:#ff6b57;--grn:#4be08f;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+:root[data-theme="light"]{--bg:#f4f1ea;--card:#fff;--line:#e3ddd0;--tx:#1a1a1a;--mu:#6b665b}
+@media(prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#f4f1ea;--card:#fff;--line:#e3ddd0;--tx:#1a1a1a;--mu:#6b665b}}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:400 15px/1.5 Sora,system-ui,sans-serif;overflow-x:hidden}
+.orb{position:fixed;border-radius:50%;filter:blur(90px);opacity:.35;pointer-events:none;z-index:0;animation:fl 14s ease-in-out infinite alternate}
+.o1{width:420px;height:420px;background:#0aa;left:-140px;top:120px}.o2{width:380px;height:380px;background:#b8860b;right:-120px;top:520px;animation-delay:-6s}
+@keyframes fl{to{transform:translate(60px,-50px) scale(1.15)}}
+.wrap{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:20px 18px 60px}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font:700 24px Fraunces,Georgia,serif;letter-spacing:.3px}.logo i{color:var(--gold);font-style:normal;text-shadow:0 0 18px var(--gold)}
+.chip{border:1px solid var(--line);background:var(--card);border-radius:10px;padding:8px 14px;font-size:13px;color:var(--mu)}.chip b{color:var(--teal);font-weight:600}
+nav{display:flex;gap:6px;margin:22px 0 10px;overflow-x:auto;padding:6px;border:1px solid var(--line);border-radius:16px;background:var(--card)}
+nav a{color:var(--mu);text-decoration:none;padding:11px 18px;border-radius:11px;white-space:nowrap;font-size:14px}
+nav a:first-child{color:var(--teal);background:linear-gradient(#12302f,#0d1a1c);box-shadow:inset 0 0 0 1px #1f5a55,0 0 22px #2ee6c822}
+nav a:hover,nav a:focus-visible{color:var(--tx);outline:2px solid var(--teal);outline-offset:-2px}
+.steps{display:flex;justify-content:center;align-items:center;margin:26px 0;font-size:12px;color:var(--mu)}
+.st{display:flex;flex-direction:column;align-items:center;gap:6px;width:110px}.st span{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:#1a1f25;border:1px solid var(--line);transition:.5s}
+.st.on span{background:#0f3b38;border-color:var(--teal);color:var(--teal);box-shadow:0 0 22px #2ee6c877}.st.on{color:var(--teal)}
+.bar{width:70px;height:1px;background:var(--line);margin-bottom:22px}
+.grid{display:grid;grid-template-columns:2fr 1fr;gap:18px}
+.card{background:linear-gradient(160deg,var(--card),transparent 160%);border:1px solid var(--line);border-radius:18px;padding:22px}
+.kp{display:grid;grid-template-columns:repeat(3,1fr);gap:22px 16px}
+.kp small{color:var(--mu);display:block}.kp .v{font:700 27px Fraunces,Georgia,serif;margin:4px 0}.kp .d{font-size:12px}
+.up{color:var(--grn)}.dn{color:var(--red)}.g{color:var(--gold)}
+h2{font:600 15px Sora;margin:0 0 14px;color:var(--mu)}
+label{display:block;font-size:12px;color:var(--mu);margin:12px 0 5px}
+input,select{width:100%;background:#0000002e;border:1px solid var(--line);color:var(--tx);border-radius:11px;padding:12px;font:inherit}
+input:focus,select:focus{outline:2px solid var(--teal)}
+.out{margin-top:14px;padding:14px;border-radius:12px;background:#2ee6c811;border:1px solid #2ee6c833}.out b{font:700 24px Fraunces,serif;color:var(--gold)}
+.btn{margin-top:14px;width:100%;padding:13px;border-radius:11px;border:1px solid #1f5a55;color:var(--teal);background:linear-gradient(#123b39,#0d1a1c);font:600 14px Sora;cursor:pointer;box-shadow:0 0 22px #2ee6c822;transition:.3s}.btn:hover{box-shadow:0 0 30px #2ee6c866}
+.chart{margin-top:18px}svg{width:100%;height:auto;display:block}
+.ln{stroke-dasharray:1;stroke-dashoffset:1;animation:dr 2.2s .3s forwards ease-out}@keyframes dr{to{stroke-dashoffset:0}}
+.tip{position:absolute;background:#000c;border:1px solid var(--teal);color:#fff;border-radius:8px;padding:5px 9px;font-size:12px;pointer-events:none;opacity:0;transition:opacity .15s}
+.ai{display:grid;grid-template-columns:230px 1fr;gap:26px;align-items:center;margin-top:18px}
+.gauge{text-align:center}.verdict{font:700 22px Fraunces,serif;margin-top:6px}
+ul{margin:0;padding-left:18px;color:#c4ccd4}li{margin:7px 0}
+.jw{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin-top:6px}
+.jw .sh{border:1px solid var(--line);border-radius:14px;padding:14px;background:#ffffff05;transition:.3s}.jw .sh:hover{border-color:var(--gold);transform:translateY(-3px)}
+.jw b{display:block}.jw small{color:var(--mu)}
+.tk{overflow:hidden;border-block:1px solid var(--line);margin:22px 0;white-space:nowrap;color:var(--mu);font-size:13px}.tk div{display:inline-block;padding:9px 0;animation:mq 30s linear infinite}
+@keyframes mq{to{transform:translateX(-50%)}}
+footer{margin-top:26px;color:var(--mu);font-size:12px;max-width:80ch}
+@media(max-width:820px){.grid,.ai{grid-template-columns:1fr}.kp{grid-template-columns:1fr 1fr}.bar{width:26px}.st{width:80px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.ln{stroke-dashoffset:0}}
+.card{background:radial-gradient(300px circle at var(--x,-100px) var(--y,-100px),#e9b9491c,transparent 70%),linear-gradient(160deg,var(--card),transparent 160%)}
+.hero{display:grid;grid-template-columns:250px 1fr;gap:28px;align-items:center;margin:8px 0 18px}
+.coinw{perspective:700px;display:grid;place-items:center}
+.coin{width:190px;height:190px;border-radius:50%;background:conic-gradient(from 20deg,#7a5410,#f6d878,#b8860b,#fff0b3,#a06d0c,#f6d878,#7a5410);box-shadow:0 0 70px #e9b94966,inset 0 0 0 10px #ffffff2a,inset 0 0 34px #0007;display:grid;place-items:center;color:#4a3208;font:700 44px Fraunces,serif;text-shadow:0 1px 0 #fff9;animation:sw 6s ease-in-out infinite}
+@keyframes sw{0%,100%{transform:rotateY(-28deg) rotateX(6deg)}50%{transform:rotateY(28deg) rotateX(-6deg)}}
+.wt{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.wt button{background:none;border:1px solid var(--line);color:var(--mu);border-radius:20px;padding:8px 16px;font:inherit;font-size:13px;cursor:pointer;transition:.3s}
+.wt button.on{color:var(--teal);border-color:var(--teal);background:#2ee6c81a;box-shadow:0 0 18px #2ee6c855}
+.big{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.big div{border:1px solid var(--line);border-radius:14px;padding:14px;background:#ffffff06}.big b{display:block;font:700 28px Fraunces,serif;color:var(--gold)}.big small{color:var(--mu)}
+.jw .sh{position:relative;overflow:hidden;background:radial-gradient(240px circle at var(--x,-100px) var(--y,-100px),#e9b94922,transparent 70%),#ffffff05}
+.sh.best{border-color:var(--grn);box-shadow:0 0 26px #4be08f33}.sh.best::after{content:"Lowest all-in";position:absolute;top:10px;right:10px;font-size:11px;color:#04120a;background:var(--grn);border-radius:8px;padding:2px 8px}
+.mtr{height:6px;border-radius:4px;background:linear-gradient(90deg,var(--grn),#3a444e 50%,var(--red));position:relative;margin:14px 0 6px}.mtr i{position:absolute;top:-4px;width:14px;height:14px;border-radius:50%;background:#fff;transform:translateX(-50%);box-shadow:0 0 10px #fff;transition:left .7s}
+.tt{margin-top:8px}.tt b{font:700 21px Fraunces,serif;color:var(--gold)}
+@media(max-width:820px){.hero{grid-template-columns:1fr}.big{grid-template-columns:1fr 1fr}}
+.tabs{display:flex;gap:6px;margin:6px 0 4px}.tabs button{flex:0;background:none;border:1px solid var(--line);color:var(--mu);padding:7px 16px;border-radius:20px;cursor:pointer;font:inherit;font-size:13px;transition:.3s}.tabs button.on{color:#06251f;background:var(--teal);border-color:var(--teal);box-shadow:0 0 18px #2ee6c877}
+.stt{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:8px;font-size:12px;color:var(--mu)}.stt b{display:block;font:700 17px Fraunces,serif;color:var(--tx)}
+.rw{display:grid;grid-template-columns:150px 1fr 190px;gap:14px;align-items:center;padding:14px 0;border-top:1px solid var(--line)}
+.rw .nm b{display:block}.rw .nm small{color:var(--mu)}.trk{height:12px;border-radius:8px;background:#ffffff0d;overflow:hidden}.trk i{display:block;height:100%;width:0;border-radius:8px;background:linear-gradient(90deg,#b8860b,var(--gold));transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+.rw.best .trk i{background:linear-gradient(90deg,#0aa,var(--teal));box-shadow:0 0 14px var(--teal)}.rw .tt{text-align:right}.rw .tt b{font:700 20px Fraunces,serif}
+.rw .ed{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap;font-size:12px;color:var(--mu);align-items:center}.ed input{width:110px;padding:6px 8px;font-size:12px}
+.bdg{font-size:11px;color:#06251f;background:var(--teal);border-radius:8px;padding:2px 8px;margin-left:6px}
+.ctl{display:flex;gap:12px;flex-wrap:wrap}.ctl>div{flex:1;min-width:140px}
+@media(max-width:820px){.rw{grid-template-columns:1fr}.rw .tt{text-align:left}.stt{grid-template-columns:1fr 1fr}}
+</style></head><body>
+<div class="orb o1"></div><div class="orb o2"></div>
+<div class="wrap">
+<header><div class="logo">Aurum<i>.</i>ai</div><div class="chip">📍 Chennai, India · <b id="asof"></b></div></header>
+<nav><a href="#rates">Today's rate</a><a href="#advisor">AI advisor</a><a href="#calc">Cost calculator</a><a href="#shops">Chennai jewellers</a></nav>
+<div class="steps"><div class="st on"><span>1</span>Read the rate</div><div class="bar"></div><div class="st"><span>2</span>AI verdict</div><div class="bar"></div><div class="st"><span>3</span>Buy plan</div></div>
+<div class="tk"><div id="tk"></div></div>
+
+<div class="card hero"><div class="coinw"><div class="coin" id="coin">1 g</div></div><div><h2>Chennai gold price by weight — pick one</h2><div class="wt" id="wt"></div><div class="big" id="big"></div></div></div>
+<div class="grid" id="rates">
+ <div class="card"><h2>Gold rate in Chennai today, per gram (INR)</h2>
+  <div class="kp" id="kp"></div>
+  <div class="tabs" id="tabs"><button data-r="W" class="on">1 week</button><button data-r="M">1 month</button><button data-r="Y">1 year</button></div><div class="chart" style="position:relative"><div class="tip" id="tip"></div>
+  <svg viewBox="0 0 800 260" id="ch" role="img" aria-label="24 carat gold price per gram, last days"></svg></div><div class="stt" id="stt"></div><p style="color:var(--mu);font-size:11px;margin:10px 0 0" id="src"></p>
+ </div>
+ <div class="card" id="calc"><h2>What will I actually pay?</h2>
+  <label>Weight (grams)</label><input id="gm" type="number" value="8" min="0.1" step="0.1">
+  <label>Purity</label><select id="pu"><option value="24">24K (coins, bars)</option><option value="22" selected>22K (jewellery)</option><option value="18">18K</option></select>
+  <label>Making charge (%)</label><input id="mk" type="number" value="10" min="0" max="35">
+  <button class="btn" id="go">Estimate total cost</button>
+  <div class="out" id="out"></div>
+ </div>
+</div>
+
+<div class="card ai" id="advisor">
+ <div class="gauge"><svg viewBox="0 0 200 120"><path d="M20 100A80 80 0 0 1 180 100" fill="none" stroke="#1c242c" stroke-width="14" stroke-linecap="round"/><path id="ga" d="M20 100A80 80 0 0 1 180 100" fill="none" stroke="var(--teal)" stroke-width="14" stroke-linecap="round" pathLength="100" stroke-dasharray="100" stroke-dashoffset="100" style="transition:stroke-dashoffset 2s ease"/><text x="100" y="98" text-anchor="middle" fill="currentColor" font-size="30" font-family="Fraunces" id="sc">0</text></svg>
+  <div class="verdict" id="vd"></div><small style="color:var(--mu)">Buy-readiness score</small></div>
+ <div><h2>Aurum AI read of the last few days</h2><ul id="why"></ul>
+  <label>Your budget (₹) — get a staggered plan</label><input id="bd" type="number" value="100000" min="1000" step="1000"><div class="out" id="plan"></div></div>
+</div>
+
+<div class="card" id="shops" style="margin-top:18px"><h2>Chennai jewellers — what 1 gram really costs at each shop</h2>
+ <div class="ctl"><div><label>Weight (g)</label><input id="sg" type="number" value="1" min="0.1" step="0.1"></div><div><label>Purity</label><select id="sp"><option value="24">24K</option><option value="22" selected>22K</option><option value="18">18K</option></select></div></div>
+ <div id="race" style="margin-top:8px"></div>
+ <p style="color:var(--mu);font-size:12px;margin:12px 0 0">Total = rate × weight + making charge + 3% GST. Every shop starts at today's Chennai benchmark rate and every making % is an assumption — type the rate and making % your jeweller quotes and press Enter.</p></div>
+<footer>Rates update automatically twice a day from a gold-price feed and can differ from your jeweller's board (making charges and 3% GST are extra). The advisor is a statistical and AI-assisted guide, not licensed financial advice; gold can fall after you buy. Always compare with the shop's quoted rate and check the BIS hallmark.</footer>
+</div>
+<script type="module">
+const $=id=>document.getElementById(id),inr=n=>"₹"+Math.round(n).toLocaleString("en-IN");
+const J=u=>fetch(u).then(r=>{if(!r.ok)throw 0;return r.json()});
+let RT,HS,AD;try{[RT,HS,AD]=await Promise.all([J("data/rates.json"),J("data/history.json"),J("data/advice.json")])}catch(e){document.body.innerHTML='<p style="padding:40px;font:16px sans-serif">Rates are temporarily unavailable. Please refresh in a minute.</p>';throw e}
+const DATA={asof:RT.asof},r24=RT.r24,r22=RT.r22,r18=RT.r18;
+$("asof").textContent=(RT.stale?"last update ":"")+RT.asof;
+function cnt(el,to,pre){let s=performance.now();(function f(t){let p=Math.min((t-s)/1400,1);el.textContent=(pre||"")+Math.round(to*(1-Math.pow(1-p,3))).toLocaleString("en-IN");if(p<1)requestAnimationFrame(f)})(s)}
+const w=HS.W.v,wk=(w[w.length-1]/w[0]-1)*100,rows=[["24K · pure",r24,RT.chg24],["22K · jewellery",r22,RT.chg22],["18K",r18,RT.chg24]];
+$("kp").innerHTML=rows.map((r,i)=>`<div><small>${r[0]}</small><div class="v g" id="v${i}">₹0</div><div class="d ${r[2]<0?'dn':'up'}">${r[2]<0?'▼':'▲'} ${Math.abs(r[2]).toFixed(2)}% today</div></div>`).join("")+
+`<div><small>10 g of 24K</small><div class="v">${inr(r24*10)}</div></div><div><small>10 g of 22K</small><div class="v">${inr(r22*10)}</div></div><div><small>7-day change (24K)</small><div class="v ${wk<0?'dn':'up'}">${wk.toFixed(1)}%</div></div>`;
+rows.forEach((r,i)=>cnt($("v"+i),r[1],"₹"));
+$("tk").innerHTML=(`24K ${inr(r24)}/g &nbsp;•&nbsp; 22K ${inr(r22)}/g &nbsp;•&nbsp; 18K ${inr(r18)}/g &nbsp;•&nbsp; 22K 8 g ${inr(r22*8)} &nbsp;•&nbsp; Chennai · ${DATA.asof} &nbsp;•&nbsp; `).repeat(6);
+// chart ranges (24K per gram, from Paytm/IBJA-aligned series, INR)
+const RG=HS;
+function draw(k){const R=RG[k],v=R.v,n=v.length,mn=Math.min(...v)*.985,mx=Math.max(...v)*1.015,X=i=>40+i/(n-1)*720,Y=x=>215-(x-mn)/(mx-mn)*185,p=v.map((x,i)=>[X(i),Y(x)]),pa="M"+p.map(q=>q.join(",")).join("L"),hi=v.indexOf(Math.max(...v)),lo=v.indexOf(Math.min(...v));
+$("ch").innerHTML=`<defs><linearGradient id="fg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2ee6c8" stop-opacity=".35"/><stop offset="1" stop-color="#2ee6c8" stop-opacity="0"/></linearGradient></defs><path d="${pa}L${p[n-1][0]},225L${p[0][0]},225Z" fill="url(#fg)"/><path class="ln" pathLength="1" d="${pa}" fill="none" stroke="#2ee6c8" stroke-width="3" style="filter:drop-shadow(0 0 6px #2ee6c8)"/>`+
+p.map((q,i)=>`<circle cx="${q[0]}" cy="${q[1]}" r="${i==hi||i==lo?7:4}" fill="#06080b" stroke="${i==hi?'#ff6b57':i==lo?'#4be08f':'#e9b949'}" stroke-width="2" data-i="${i}"/>${n<9||i%2==0||i==n-1?`<text x="${q[0]}" y="248" text-anchor="middle" fill="#8a96a3" font-size="12">${R.l[i]}</text>`:''}`).join("");
+const av=v.reduce((a,b)=>a+b)/n;$("stt").innerHTML=`<div>Change<b class="${v[n-1]<v[0]?'dn':'up'}">${((v[n-1]/v[0]-1)*100).toFixed(1)}%</b></div><div>High<b>${inr(v[hi])}</b></div><div>Low<b>${inr(v[lo])}</b></div><div>Average<b>${inr(av)}</b></div>`;$("src").textContent="24K per gram · "+R.s+". Sources differ by 1–2%, so these figures can sit slightly off the headline rate.";$("ch").onmousemove=e=>{const c=e.target.closest("circle"),t=$("tip");if(c){const i=c.dataset.i,b=$("ch").parentNode.getBoundingClientRect();t.textContent=R.l[i]+" · "+inr(v[i])+"/g";t.style.left=(e.clientX-b.left+10)+"px";t.style.top=(e.clientY-b.top-34)+"px";t.style.opacity=1}else t.style.opacity=0}}
+document.querySelectorAll("#tabs button").forEach(b=>b.onclick=()=>{document.querySelectorAll("#tabs button").forEach(x=>x.classList.remove("on"));b.classList.add("on");draw(b.dataset.r)});draw("W");
+// calculator
+function calc(){const g=+$("gm").value||0,p=$("pu").value,m=(+$("mk").value||0)/100,r=p==24?r24:p==22?r22:r18,base=g*r,mk=base*m,gst=(base+mk)*.03;$("out").innerHTML=`Gold value ${inr(base)}<br>Making ${inr(mk)} · GST 3% ${inr(gst)}<br><b>${inr(base+mk+gst)}</b> <small style="color:var(--mu)">estimated total</small>`}
+$("go").onclick=calc;["gm","pu","mk"].forEach(i=>$(i).oninput=calc);calc();
+let sc=AD.score;const col=AD.tone=="buy"?"var(--grn)":AD.tone=="wait"?"var(--red)":"var(--gold)";
+$("vd").textContent=AD.verdict;$("vd").style.color=col;$("ga").style.stroke=col;
+setTimeout(()=>{$("ga").style.strokeDashoffset=100-sc;cnt($("sc"),sc)},400);
+$("why").innerHTML=AD.reasons.map(x=>`<li>${x}</li>`).join("")+`<li style="color:var(--mu);font-size:12px;list-style:none;margin-left:-18px">Analysis: ${AD.engine} · ${AD.asof}</li>`;
+function plan(){const b=+$("bd").value||0,t=sc>=65?[.5,.3,.2]:sc>=45?[.34,.33,.33]:[.2,.3,.5],l=["Today","In about a week","Two weeks out, or on the next dip"];
+$("plan").innerHTML=t.map((x,i)=>`${l[i]}: ${inr(b*x)} ≈ <b style="font-size:16px">${(b*x/r24/1.03).toFixed(2)} g</b> of 24K<br>`).join("")+`<small style="color:var(--mu)">Rough grams after 3% GST, no making charge.</small>`}
+$("bd").oninput=plan;plan();
+const SH=[["Vummidi Bangaru Jewellers","Chennai-based"],["Joyalukkas","Multi-branch chain"],["Kalyan Jewellers","Multi-branch chain"],["Malabar Gold & Diamonds","Multi-branch chain"],["Tanishq","Tata group chain"],["GRT Jewellers","Chennai-based"],["Lalithaa Jewellery","Chennai-based"],["Nathella Sampathu Chetty","Old Chennai jeweller"]].map(x=>({n:x[0],t:x[1],r:x[2]||{24:r24,22:r22,18:r18},pub:!!x[3],m:10}));
+function race(anim){const g=+$("sg").value||1,p=$("sp").value,rows=SH.map(s=>({s,tot:g*s.r[p]*(1+s.m/100)*1.03})).sort((a,b)=>a.tot-b.tot),mx=rows[rows.length-1].tot,cheap=rows[0].tot;
+$("race").innerHTML=rows.map((o,i)=>`<div class="rw ${i?'':'best'}"><div class="nm"><b>${o.s.n}${i?'':'<span class="bdg">lowest</span>'}</b><small>${o.s.t}${o.s.pub?' · rate from shop site':''}</small></div><div class="trk"><i data-w="${o.tot/mx*100}"></i></div><div class="tt"><b>${inr(o.tot)}</b><br><small style="color:var(--mu)">${i?'+'+inr(o.tot-cheap)+' vs lowest':'saves '+inr(mx-cheap)+' vs dearest'}</small></div>
+<div class="ed">Rate/g ${p}K <input data-k="r" data-i="${SH.indexOf(o.s)}" type="number" value="${o.s.r[p]}"> Making % <input data-k="m" data-i="${SH.indexOf(o.s)}" type="number" value="${o.s.m}"> <span>= ${inr(o.s.r[p]*(1+o.s.m/100)*1.03)} per gram all-in</span></div></div>`).join("");
+requestAnimationFrame(()=>requestAnimationFrame(()=>document.querySelectorAll("#race i").forEach(e=>e.style.width=e.dataset.w+"%")))}
+$("race").onchange=e=>{const t=e.target,s=SH[t.dataset.i],v=+t.value;if(t.dataset.k=="r")s.r[$("sp").value]=v;else s.m=v;race()};$("sg").oninput=$("sp").onchange=race;race();
+// stepper sequence
+const st=[...document.querySelectorAll(".st")];st.forEach((s,i)=>setTimeout(()=>s.classList.add("on"),900+i*1300));
+</script></body></html>
